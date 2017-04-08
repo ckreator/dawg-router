@@ -2,9 +2,9 @@ package dawg
 
 // DawgNode is a struct that will provide common graph node functionality
 type DawgNode struct {
-	ID    uint32 `json:"id"`
-	Value string `json:"value"`
-	Edges Edges  `json:"edges"`
+	ID          uint32 `json:"id"`
+	Terminating bool   `json:"terminating"`
+	Edges       Edges  `json:"edges"`
 }
 
 // Edges is simply a map that provides a convenient mapping
@@ -27,8 +27,7 @@ func NewDawg() *Dawg {
 	return &Dawg{
 		Root: DawgNode{
 			ID:    0,
-			Value: "",
-			Edges: make(Edges),
+			Edges: Edges{},
 		},
 		Counter: 1,
 	}
@@ -51,11 +50,11 @@ func (auto *Dawg) nextID() uint32 {
 	return auto.Counter - 1
 }
 
-func (auto *Dawg) newNode(value string) *DawgNode {
+func (auto *Dawg) NewNode(terminate bool) *DawgNode {
 	return &DawgNode{
-		ID:    auto.nextID(),
-		Value: value,
-		Edges: make(Edges),
+		ID:          auto.nextID(),
+		Terminating: terminate,
+		Edges:       make(Edges),
 	}
 }
 
